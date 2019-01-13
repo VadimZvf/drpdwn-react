@@ -1,0 +1,1 @@
+{"version":3,"file":"main.38cc9fc9598336165bed.bundle.js","sources":["webpack:///./stories/container.js"],"sourcesContent":["import React from 'react';\r\nimport './stories.css';\r\n\r\nexport default story => <div style={{ padding: 20 }}>{ story() }</div>;\r\n"],"mappings":"AAAA","sourceRoot":""}
