@@ -1,0 +1,13 @@
+.top {
+    position: absolute;
+    top: 10px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 10px;
+}
+
+.controllable {
+    margin-bottom: 5rem;
+}
