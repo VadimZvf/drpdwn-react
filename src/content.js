@@ -4,17 +4,21 @@ import { findDOMNode } from 'react-dom';
 import c from 'classnames';
 import s from './index.css';
 
-export type Direction = 'auto' | 'top' | 'bottom';
+export type Direction = 'auto' | 'top' | 'bottom' | 'right' | 'left';
 
 type Props = {
     children: React.Node,
     className: string,
+    tag: any,
     ariseDirection: Direction,
-    classNames: {
+    center: boolean,
+    cssModule: {
         auto?: string,
         top?: string,
         bottom?: string,
-        wrap?: string
+        right?: string,
+        left?: string,
+        content?: string
     },
     onClick: () => void
 };
@@ -25,15 +29,21 @@ type State = {
 
 class DropdownContent extends React.Component<Props, State> {
     static defaultProps = {
-        ariseDirection: 'bottom',
+        ariseDirection: 'auto',
+        tag: 'div',
+        center: false,
         className: '',
-        classNames: {},
+        cssModule: {},
         onClick: () => {}
     };
 
-    state = {
-        direction: this.props.ariseDirection
-    };
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            direction: props.ariseDirection === 'auto' ? 'bottom' : props.ariseDirection
+        };
+    }
 
     componentDidMount() {
         this.checkDirection();
@@ -59,13 +69,18 @@ class DropdownContent extends React.Component<Props, State> {
     }
 
     render() {
-        const { children, className, onClick } = this.props;
+        const { children, cssModule, center, className, tag: Tag, onClick } = this.props;
         const { direction } = this.state;
 
+        const styles = { ...s, ...cssModule };
+
         return (
-            <section className={c(s.content, s[direction], className)} onClick={onClick}>
+            <Tag
+                className={c(styles.content, center ? styles.center : false, styles[direction], className)}
+                onClick={onClick}
+            >
                 {children}
-            </section>
+            </Tag>
         );
     }
 }

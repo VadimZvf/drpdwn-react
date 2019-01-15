@@ -4,7 +4,6 @@ import c from 'classnames';
 import { findDOMNode } from 'react-dom';
 import Trigger from './trigger';
 import Content from './content';
-import type { Direction } from './content';
 import makeControllable from './utilities/make-controllable';
 import getRandomId from './utilities/get-random-id';
 import s from './index.css';
@@ -14,7 +13,6 @@ type Props = {
     children: React.Node,
     preventClickInside: boolean,
     id?: string,
-    ariseDirection: Direction,
     onChange: boolean => void,
     isOpen?: boolean
 };
@@ -26,7 +24,6 @@ type State = {
 
 class Dropdown extends React.Component<Props, State> {
     static defaultProps = {
-        ariseDirection: 'auto',
         preventClickInside: true,
         onChange: () => {},
         className: ''
@@ -65,7 +62,7 @@ class Dropdown extends React.Component<Props, State> {
             }
 
             if (child.type === Trigger) {
-                return <Trigger {...child.props} id={this.state.id} onClick={this.toggleDropdown} />;
+                return <Trigger {...child.props} id={this.state.id} onClick={this.toggle} />;
             }
 
             if (child.type === Content) {
@@ -73,13 +70,7 @@ class Dropdown extends React.Component<Props, State> {
                     return null;
                 }
 
-                return (
-                    <Content
-                        {...child.props}
-                        ariseDirection={this.props.ariseDirection}
-                        onClick={this.handleContentClick}
-                    />
-                );
+                return <Content {...child.props} onClick={this.handleContentClick} />;
             }
 
             return child;
@@ -93,6 +84,7 @@ class Dropdown extends React.Component<Props, State> {
             return;
         }
 
+        // $FlowFixMe
         const triggerId = event.target.dataset ? event.target.dataset.drptrigger : null;
 
         if (triggerId === this.state.id) {
@@ -104,20 +96,20 @@ class Dropdown extends React.Component<Props, State> {
         /* eslint-enable react/no-find-dom-node */
         // $FlowFixMe
         if (event.target !== element && !element.contains(event.target)) {
-            this.hideDropdown();
+            this.hide();
         }
     };
 
-    hideDropdown() {
+    hide() {
         this.setState({ isOpen: false }, this.triggerChange);
     }
 
-    toggleDropdown = () => {
+    toggle = () => {
         this.setState({ isOpen: !this.state.isOpen }, this.triggerChange);
     };
 
     handleContentClick = () => {
-        if (!this.props.preventClickInside) this.hideDropdown();
+        if (!this.props.preventClickInside) this.hide();
     };
 
     triggerChange() {

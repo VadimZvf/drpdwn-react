@@ -40,7 +40,6 @@ class Wrapper extends React.Component<{}, { isOpen: boolean }> {
             <div className={styles.wrap}>
                 <Dropdown
                     className={styles.controllable}
-                    ariseDirection="auto"
                     id="customDropdown"
                     isOpen={this.state.isOpen}
                     onChange={this.handleChange}

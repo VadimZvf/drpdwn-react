@@ -13,8 +13,36 @@
 
 .bottom {
     top: 100%;
+
+    &.center {
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 .top {
     bottom: 100%;
+
+    &.center {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.right {
+    left: 100%;
+
+    &.center {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.left {
+    right: 100%;
+
+    &.center {
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
